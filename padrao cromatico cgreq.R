@@ -1,10 +1,6 @@
 # ==============================================================================
 # Sistema cromático para visualização de dados — CGREQ | DEAPS | SAPS
 # ------------------------------------------------------------------------------
-# Fonte: "Sistema cromático para visualização de dados - CGREQ - PREVIA_1_1.pdf"
-# Referência do documento original: Manual de comunicação de período de
-# defeso eleitoral 2026 (ver observação sobre a seção 1, abaixo).
-#
 # Este script define:
 #   1. Todas as paletas de cor do documento, como vetores nomeados
 #   2. Funções de escala prontas para uso em ggplot2 (fill e color)
@@ -23,8 +19,6 @@
 # ------------------------------------------------------------------------------
 # 0. Pacotes necessários
 # ------------------------------------------------------------------------------
-# Se algum destes pacotes não estiver instalado, instale antes de rodar o script:
-#   install.packages(c("ggplot2", "systemfonts", "sysfonts", "showtext"))
 
 
 pacman::p_load(tidyverse, systemfonts, sysfonts, showtext)
@@ -64,10 +58,6 @@ nucleo_analitico <- c(
 # ------------------------------------------------------------------------------
 # Sequência ordenada (do menor para o maior valor) — usar com scale_*_gradientn
 # ou como paleta discreta ordinal.
-# "critico" foi listado separadamente no PDF, na sequência imediatamente após
-# esta escala; mantive como um 6º nível opcional para destacar outliers/valores
-# extremos além de "Muito Alto" — use com cautela, pois o documento não deixa
-# explícito se pertence a esta escala ou é de uso independente.
 
 escala_quantitativa <- c(
   "muito_baixo" = "#EEF5FC",
@@ -77,7 +67,7 @@ escala_quantitativa <- c(
   "muito_alto"  = "#173A70"
 )
 
-escala_quantitativa_critico <- "#D64545"  # nível extra opcional, ver nota acima
+escala_quantitativa_critico <- "#D64545" 
 
 
 # ------------------------------------------------------------------------------
@@ -217,10 +207,6 @@ scale_fill_cgreq_quantitativa_discreta <- function(...) {
 # ------------------------------------------------------------------------------
 # 11. Tipografia — registro da fonte Rawline
 # ------------------------------------------------------------------------------
-# Localiza automaticamente os arquivos da fonte Rawline já instalados no
-# sistema operacional (você indicou que já está instalada) e os registra no
-# R via sysfonts::font_add(), habilitando o uso via showtext.
-#
 # A tabela tipográfica do manual usa 5 pesos: Light, Regular, Medium,
 # SemiBold e Bold (+ Italic). Como sysfonts::font_add() só aceita 4 variantes
 # por família (regular/bold/italic/bolditalic), registramos:
@@ -229,8 +215,7 @@ scale_fill_cgreq_quantitativa_discreta <- function(...) {
 #   - "Rawline Medium"    -> peso Medium isolado (usado em Título 4)
 #   - "Rawline SemiBold"  -> peso SemiBold isolado (usado em Título 2 e 3)
 #
-# Se a fonte não for encontrada, o script emite um aviso e segue usando a
-# fonte padrão do sistema — os gráficos funcionam, só não usarão Rawline.
+
 
 registrar_fonte_rawline <- function() {
   fontes_sistema <- systemfonts::system_fonts()
@@ -290,10 +275,6 @@ registrar_fonte_rawline()
 #   Legenda de Gráfico (8,5pt, Regular, Cinza Médio) -> legend.text
 #   Fonte / Observações (8pt, Regular Italic, Cinza Médio) -> caption
 #
-# Nota: como o tamanho de fonte real na tela/impressão depende do dispositivo
-# gráfico (showtext escala em relação ao base_size), os tamanhos abaixo estão
-# em pontos e podem precisar de ajuste fino conforme o dispositivo de saída
-# (ex.: ragg_png para HTML/Quarto, cairo_pdf para PDF).
 
 theme_cgreq <- function(base_size = 10.5, base_family = "Rawline") {
   theme_minimal(base_size = base_size, base_family = base_family) +
